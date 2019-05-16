@@ -1,0 +1,51 @@
+
+
+# mysql 配置
+spring:
+  jackson:
+    time-zone: Asia/Shanghai
+  datasource:
+    url: jdbc:mysql://${database.host}:${database.port}/${database.databasename}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false
+    username: ${database.username}
+    password: ${database.password}
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat,wall,log4j
+    database: MySQL
+    druid:
+      initial-size: ${mysqlSize.size}
+      max-active: ${mysqlSize.max}
+      min-idle: ${mysqlSize.min}
+      max-wait: 60000
+      validation-query: select 1
+      validation-query-timeout: 30
+      test-while-idle: true
+      keep-alive: true
+      filter:
+        commons-log.connection-logger-name: stat,wall,log4j
+      #      filters: stat,wall,log4j
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      test-on-borrow: true
+      test-on-return: false
+      min-evictable-idle-time-millis: 3600000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 300000
+      remove-abandoned: true #是否自动回收超时连接
+      remove-abandoned-timeout: 180 #超时时间(以秒数为单位)
+#    jpa:
+#      database: mysql
+#      show-sql: true
+#      hibernate:
+#        ddl-auto: update
+#        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+#      properties:
+#        hibernate:
+#          dialect:  org.hibernate.dialect.MySQL5Dialect
+  #  启用哪个配置文件
+  profiles:
+    active: yuyan
+server:
+  port: 8080
+mybatis:
+  mapper-locations: classpath:sqlmap/**/*.xml
+  type-aliases-package: com.mye.mine.mapper

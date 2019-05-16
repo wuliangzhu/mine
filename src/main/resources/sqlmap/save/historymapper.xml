@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mye.mine.mapper.SaveMapper">
+
+    <select id="findTidByParams" parameterType="java.util.Map" resultType="java.util.Map" >
+        select distinct tid from mye_algorithm.`alg_history_2019-05-12` where voltage = 0;
+    </select>
+
+    <!--根据指定的酒店名字和房间名字查询出所有的设备的登录时间-->
+    <select id="findLastReportTime" parameterType="java.util.Map" resultType="java.util.Map">
+      select nwa.t_id, mtt.update_time, nwa.ac_name, nwr.name, nwh.hotel_name
+      from nx_web.ac_device nwa, nx_web.ent_room nwr, nx_web.ent_hotel nwh, mye_tss.terminal mtt
+      where nwa.hotel_gid = nwh.gid and nwa.room_id = nwr.id and nwa.t_id = mtt.t_id and nwa.t_id in (
+            SELECT nwd.t_id
+            FROM nx_web.ac_device nwd
+            WHERE room_id IN (SELECT id
+            FROM nx_web.ent_room
+            WHERE name in (${room_names}) and hotel_gid IN (SELECT gid
+                FROM nx_web.ent_hotel
+                WHERE hotel_name = #{hotel_name}))
+      )
+    </select>
+
+    <!--查询离线设备-->
+    <select id="findOfflineTerminal" parameterType="int" resultType="java.util.Map">
+    <![CDATA[
+        select nwa.t_id, mtt.update_time, nwa.ac_name, nwr.name, nwh.hotel_name
+        from nx_web.ac_device nwa, nx_web.ent_room nwr, nx_web.ent_hotel nwh, mye_tss.terminal mtt
+        where nwa.hotel_gid = nwh.gid and nwa.room_id = nwr.id and nwa.t_id = mtt.t_id
+        and timestampdiff(MINUTE,mtt.update_time, now()) > #{offline}
+        order by nwh.hotel_name, nwa.ac_name
+        ]]>
+    </select>
+
+    <!--查询关机空调-->
+    <select id="findShutdownAir" resultType="java.util.Map">
+        <![CDATA[
+            select nwa.t_id, mtt.update_time, nwa.ac_name, nwr.name, nwh.hotel_name
+            from nx_web.ac_device nwa, nx_web.ent_room nwr, nx_web.ent_hotel nwh, mye_tss.terminal mtt
+            where nwa.hotel_gid = nwh.gid and nwa.room_id = nwr.id and nwa.t_id = mtt.t_id
+            and switch = 0
+            and timestampdiff(MINUTE,mtt.update_time, now()) < #{offline}
+            order by nwh.hotel_name, nwa.ac_name
+        ]]>
+    </select>
+</mapper>

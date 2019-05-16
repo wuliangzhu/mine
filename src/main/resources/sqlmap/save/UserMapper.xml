@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mye.mine.mapper.UserMapper">
+
+    <select id="getUserById" parameterType="int" resultType="com.mye.mine.entity.User">
+        select * from demo_user where userId = #{id}
+    </select>
+
+    <insert id="insertUser" parameterType="com.mye.mine.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into demo_user(username) value (#{username})
+    </insert>
+</mapper>

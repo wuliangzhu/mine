@@ -1,0 +1,13 @@
+myapp:
+  name: "shiro"
+database:
+  host: 125.216.38.66
+  port: 63634
+  databasename: nx_web
+  username: root
+  password: NxLocalDb20Se
+
+mysqlSize:
+  max: 8
+  min: 2
+  size: 2

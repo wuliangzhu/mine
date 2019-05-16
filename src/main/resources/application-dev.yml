@@ -1,0 +1,15 @@
+myapp:
+  name: "shiro"
+database:
+#  host: localhost
+#  port: 3306
+  host: 125.216.38.66
+#
+  databasename: test
+  username: root
+  password: root
+
+mysqlSize:
+  max: 8
+  min: 2
+  size: 2
