@@ -34,12 +34,24 @@
     </select>
 
     <!--查询关机空调-->
-    <select id="findShutdownAir" resultType="java.util.Map">
+    <select id="findShutdownAir" parameterType="int" resultType="java.util.Map">
         <![CDATA[
             select nwa.t_id, mtt.update_time, nwa.ac_name, nwr.name, nwh.hotel_name
             from nx_web.ac_device nwa, nx_web.ent_room nwr, nx_web.ent_hotel nwh, mye_tss.terminal mtt
             where nwa.hotel_gid = nwh.gid and nwa.room_id = nwr.id and nwa.t_id = mtt.t_id
             and switch = 0
+            and timestampdiff(MINUTE,mtt.update_time, now()) < #{offline}
+            order by nwh.hotel_name, nwa.ac_name
+        ]]>
+    </select>
+
+    <!--查询开机空调-->
+    <select id="findOpenAir" parameterType="int" resultType="java.util.Map">
+        <![CDATA[
+            select nwa.t_id, mtt.update_time, nwa.ac_name, nwr.name, nwh.hotel_name
+            from nx_web.ac_device nwa, nx_web.ent_room nwr, nx_web.ent_hotel nwh, mye_tss.terminal mtt
+            where nwa.hotel_gid = nwh.gid and nwa.room_id = nwr.id and nwa.t_id = mtt.t_id
+            and switch = 1
             and timestampdiff(MINUTE,mtt.update_time, now()) < #{offline}
             order by nwh.hotel_name, nwa.ac_name
         ]]>

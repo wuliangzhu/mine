@@ -11,4 +11,5 @@ public interface SaveMapper {
     List<Map<String, Object>> findLastReportTime(Map<String, String> params);
     List<Map<String, Object>> findOfflineTerminal(int offline);
     List<Map<String, Object>> findShutdownAir(int offline);
+    List<Map<String, Object>> findOpenAir(int offline);
 }

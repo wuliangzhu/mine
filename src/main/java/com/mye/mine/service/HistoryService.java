@@ -61,4 +61,13 @@ public class HistoryService {
     public List<Map<String, Object>> findShutdownAir(int offline) {
         return this.saveMapper.findShutdownAir(offline);
     }
+
+    /**
+     * 查询开机的空调
+     * @param offline
+     * @return
+     */
+    public List<Map<String, Object>> findOpenAir(int offline) {
+        return this.saveMapper.findOpenAir(offline);
+    }
 }

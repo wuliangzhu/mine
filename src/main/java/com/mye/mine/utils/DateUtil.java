@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class DateUtil {
     public static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
+    public static DateTimeFormatter DATE_FORMAT_2 = DateTimeFormatter.ofPattern("yyyyMMdd");
     /**
      * 把date转化为字符串
      * @param format
@@ -55,5 +55,9 @@ public class DateUtil {
 
     public static String addDays2String(LocalDate localDate, int days) {
         return format(localDate.plusDays(days));
+    }
+
+    public  static long getMillis(Date date) {
+        return date.getTime();
     }
 }
