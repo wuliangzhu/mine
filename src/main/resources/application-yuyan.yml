@@ -1,5 +1,9 @@
 myapp:
   name: "shiro"
+  job:
+    toSend:
+      - huihuixiao@pihyun.com
+      - liangzhuwu@pihyun.com
 database:
   host: 125.216.38.66
   port: 63634

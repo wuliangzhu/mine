@@ -1,9 +1,12 @@
 package com.mye.mine.controller;
 
 import com.mye.mine.entity.User;
+import com.mye.mine.service.MailService;
 import com.mye.mine.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MailSessionDefinition;
 
 /**
  * http://localhost:8080/swagger-ui.html
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    MailService mailService;
 
     @GetMapping(value = "getInfo")
     public User getUserInfo(@RequestParam(value = "userId") int id) {
@@ -28,5 +34,13 @@ public class UserController {
         user.setUsername(name);
 
         return this.userService.insertUser(user);
+    }
+
+    @GetMapping("/sendMail")
+    public String sendMail(@RequestParam("to") String to,
+                           @RequestParam("title") String title, @RequestParam("content") String content) {
+        this.mailService.send(to, title, content);
+
+        return "success";
     }
 }
