@@ -27,24 +27,30 @@ public class Jobs {
      * 1 早上6点30分 导出 开机的房间
      * 2 12点40 导出 关机的房间
      * 3 14点20 导出 开机的房间
-     *
+     * 4 22点10 导出 关机的房间
      *
      */
     @Scheduled(cron = "0 30 6 * * *")
-    public void queryShutdownAir() {
+    public void queryOpenAir() {
         logger.info("开始查询关闭的空调");
-        this.exportShutDownAir(15);
-    }
-
-    @Scheduled(cron = "0 40 12 * * *")
-    public void queryShutdownAir2() {
-        logger.info("开始查询开机的空调");
         this.exportOpenAir(15);
     }
 
+    @Scheduled(cron = "0 40 12 * * *")
+    public void queryShutdownAir() {
+        logger.info("开始查询开机的空调");
+        this.exportShutDownAir(15);
+    }
+
     @Scheduled(cron = "0 20 14 * * *")
-    public void queryShutdownAir3() {
+    public void queryOpenAir2() {
         logger.info("开始查询关闭的空调");
+        this.exportOpenAir(15);
+    }
+
+    @Scheduled(cron = "0 10 22 * * *")
+    public void queryShutdownAir2() {
+        logger.info("开始查询开机的空调");
         this.exportShutDownAir(15);
     }
 
@@ -71,21 +77,17 @@ public class Jobs {
         this.exportOfflineTerminal(15);
     }
 
+    @Scheduled(cron = "0 10 22 * * *")
+    public void queryOfflineTerminal4() {
+        logger.info("开始查询离线的设备");
+        this.exportOfflineTerminal(15);
+    }
+
     private void exportShutDownAir(int offline) {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String filename = simpleDateFormat.format(calendar.getTime());
 
-//        List<Map<String, Object>> data = this.historyService.findShutdownAir(offline);
-//
-//        try {
-//            ExcelUtil.createExcel("shutdownAir_" + filename,
-//                    new String[]{"TID", "上报时间", "设备号", "房间号", "楼栋名字"},
-//                    new String[]{"t_id", "update_time", "ac_name", "name", "hotel_name"},
-//                    data);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         while (true) {
             try {
                 List<Map<String, Object>> data = this.historyService.findShutdownAir(offline);
@@ -112,17 +114,6 @@ public class Jobs {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String filename = simpleDateFormat.format(calendar.getTime());
-
-//        List<Map<String, Object>> data = this.historyService.findOpenAir(offline);
-//
-//        try {
-//            ExcelUtil.createExcel("shutdownAir_" + filename,
-//                    new String[]{"TID", "上报时间", "设备号", "房间号", "楼栋名字"},
-//                    new String[]{"t_id", "update_time", "ac_name", "name", "hotel_name"},
-//                    data);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         while (true) {
             try {
