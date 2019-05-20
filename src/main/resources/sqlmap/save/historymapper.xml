@@ -4,7 +4,7 @@
 <mapper namespace="com.mye.mine.mapper.SaveMapper">
 
     <select id="findTidByParams" parameterType="java.util.Map" resultType="java.util.Map" >
-        select distinct tid from mye_algorithm.`alg_history_2019-05-12` where voltage = 0;
+        select distinct tid from mye_algorithm.`alg_history_${day}` where voltage = 0;
     </select>
 
     <!--根据指定的酒店名字和房间名字查询出所有的设备的登录时间-->
@@ -54,6 +54,53 @@
             and switch = 1
             and timestampdiff(MINUTE,mtt.update_time, now()) < #{offline}
             order by nwh.hotel_name, nwa.ac_name
+        ]]>
+    </select>
+
+    <!---->
+    <select id="findAlgAcHourPower" parameterType="java.util.Map" resultType="java.util.Map">
+        <![CDATA[
+       SELECT
+	  `hour`,
+	   SUM(hour_electric) sum_hour_electric,
+	   SUM(saving_electric) sum_save_electric
+       FROM
+	   `alg_ac_hour_power_${day}`
+	    WHERE
+	    t_id IN (
+		SELECT
+			t_id
+		FROM
+			`nx_web`.`ac_device`
+		WHERE
+			hotel_gid IN 	]]>
+        <foreach  	item="item" collection="hotels" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        )
+        GROUP BY
+        `hour`
+    </select>
+
+    <!--查出指定日期和设备-->
+    <select id="findPowerByDay" parameterType="java.util.Map" resultType="java.util.Map">
+        <![CDATA[
+           SELECT
+          `hour`,
+           SUM(hour_electric) sum_hour_electric,
+           SUM(saving_electric) sum_save_electric
+           FROM
+           `alg_ac_hour_power_${day}` and t_id = #{tid}
+        ]]>
+    </select>
+
+    <select id="findMaxTempByTemper" parameterType="java.util.Map" resultType="java.util.Map">
+        <![CDATA[
+            select * from (
+            SELECT tid, deviceId, MAX(hist.temperatureReal) max_temp_real,
+            AVG(hist.temperatureReal) avg_temp_real, MAX(hist.currentPower) max_current_power, AVG(hist.currentPower) avg_current_power
+            FROM mye_algorithm.`alg_history_${day}` AS hist where currentPower > 500 and temperatureReal < 100 group by deviceId) as t_real
+            where max_temp_real > #{temperature};
         ]]>
     </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.mye.mine.controller;
 
+import com.mye.mine.quartz.Jobs;
 import com.mye.mine.service.HistoryService;
 import com.mye.mine.utils.DateUtil;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +27,8 @@ public class SaveController {
 
     @Autowired
     HistoryService historyService;
+    @Autowired
+    Jobs jobs;
 
     @GetMapping("/findDeviceByRoom")
     public Object findDeviceByRoom(String hotelName, String roomName){
@@ -110,6 +113,12 @@ public class SaveController {
         return historyService.findShutdownAir(offlineTimes);
     }
 
+
+    @ApiOperation("查询job查询数据的接收者")
+    @GetMapping("/queryMailReceiver")
+    public List<String> queryMailReceiver() {
+        return this.jobs.getMailReceiver();
+    }
 
 //    @ApiOperation("excel导出")
 //    @RequestMapping(value = "downLoadStuInfoExcel", produces = "text/html;charset=UTF-8")

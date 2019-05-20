@@ -1,4 +1,13 @@
-
+myapp:
+  job: ttt
+  enable: true
+  age: 123
+  to:
+    - "huihuixiao@pihyun.com"
+    - "liangzhuwu@pihyun.com"
+  maps:
+    key1: 123
+    key2: 321
 
 # mysql 配置
 spring:
@@ -14,6 +23,8 @@ spring:
   jackson:
     time-zone: Asia/Shanghai
   datasource:
+    name: EYuyan
+    type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://${database.host}:${database.port}/${database.databasename}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false
     username: ${database.username}
     password: ${database.password}
@@ -41,7 +52,7 @@ spring:
       time-between-eviction-runs-millis: 300000
       remove-abandoned: true #是否自动回收超时连接
       remove-abandoned-timeout: 180 #超时时间(以秒数为单位)
-#    jpa:
+  #    jpa:
 #      database: mysql
 #      show-sql: true
 #      hibernate:
@@ -53,8 +64,12 @@ spring:
   #  启用哪个配置文件
   profiles:
     active: yuyan
+    include: watch
 server:
   port: 8080
 mybatis:
   mapper-locations: classpath:sqlmap/**/*.xml
   type-aliases-package: com.mye.mine.mapper
+  configuration:
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false

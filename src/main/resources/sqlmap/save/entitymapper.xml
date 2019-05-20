@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mye.mine.mapper.EntityMapper">
+    <resultMap id="device" type="com.mye.mine.entity.Device">
+        <result column="id" property="id" />
+        <result column="room_id" property="roomId" />
+        <result column="hotel_gid" property="hotelGid"/>
+        <result column="ac_name" property="name"/>
+
+        <association property="roomName"  column="room_id" select="getRoomNameById"/>
+        <association property="hotelName" column="hotel_gid" select="getHotelNameById"/>
+    </resultMap>
+
+    <select id="getRoomNameById" parameterType="int" resultType="String">
+        select name from nx_web.ent_room where id = #{id}
+    </select>
+
+    <select id="getHotelNameById" parameterType="String" resultType="String">
+        select hotel_name from nx_web.ent_hotel where gid = #{gid}
+    </select>
+
+    <select id="getDeviceList" resultMap="device">
+        select id, room_id, hotel_gid, ac_name from nx_web.ac_device;
+    </select>
+</mapper>
