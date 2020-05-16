@@ -1,0 +1,14 @@
+myapp:
+  name: "shiro"
+
+database:
+  host: rm-8vbt61mi7kqn457bxso.mysql.zhangbei.rds.aliyuncs.com
+  port: 3306
+  databasename: nx_web
+  username: dbnengxi
+  password: nxdb@017
+
+mysqlSize:
+  max: 10
+  min: 10
+  size: 10

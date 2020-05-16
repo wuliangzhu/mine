@@ -187,7 +187,10 @@ public class ExcelUtil {
                     // 定义单元格为字符串类型
                     cell.setCellType(XSSFCell.CELL_TYPE_STRING);
                     // 在单元格中输入一些内容
-                    cell.setCellValue((dataMap.get(fieldList[i])).toString());
+
+                    Object v = dataMap.get(fieldList[i]);
+                    v = v == null? "null" : v;
+                    cell.setCellValue((v).toString());
                 }
                 // ===============================================================
             }

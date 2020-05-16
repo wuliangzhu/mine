@@ -1,6 +1,6 @@
 myapp:
   job: ttt
-  enable: true
+  enable: false
   age: 123
   to:
     - "huihuixiao@pihyun.com"
@@ -63,10 +63,10 @@ spring:
 #          dialect:  org.hibernate.dialect.MySQL5Dialect
   #  启用哪个配置文件
   profiles:
-    active: yuyan
+    active: pub
     include: watch
 server:
-  port: 8080
+  port: 1003
 mybatis:
   mapper-locations: classpath:sqlmap/**/*.xml
   type-aliases-package: com.mye.mine.mapper

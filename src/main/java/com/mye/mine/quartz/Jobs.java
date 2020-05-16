@@ -114,7 +114,7 @@ public class Jobs {
     public void queryShutdownAir2() {
         logger.info("开始查询关机的空调");
         String filename = this.exportShutDownAir(15);
-        this.sendMail(filename, "22:40空调关机数据");
+        this.sendMail(filename, "22:10空调关机数据");
     }
 
     /**

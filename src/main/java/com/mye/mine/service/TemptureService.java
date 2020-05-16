@@ -3,7 +3,7 @@ package com.mye.mine.service;
 import com.mye.mine.config.WatchHotels;
 import com.mye.mine.entity.Device;
 import com.mye.mine.mapper.EntityMapper;
-import com.mye.mine.mapper.SaveMapper;
+import com.mye.mine.mapper.HistoryMapper;
 import com.mye.mine.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class TemptureService implements CommandLineRunner {
     @Autowired
     private WatchHotels hotels;
     @Autowired
-    private SaveMapper saveMapper;
+    private HistoryMapper saveMapper;
 
     @Autowired
     private EntityMapper entityMapper;
@@ -103,7 +103,7 @@ public class TemptureService implements CommandLineRunner {
     }
 
     public void run(String[] args) {
-        reloadDevices();
+//        reloadDevices();
     }
 
     public int reloadDevices() {

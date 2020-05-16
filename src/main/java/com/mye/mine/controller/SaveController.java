@@ -38,6 +38,13 @@ public class SaveController {
         return historyService.findTidByParams(ret);
     }
 
+    @GetMapping("/findLastOfflineTimeByTids")
+    public Object findDeviceByRoom(String tids){
+        String[] tidArray = tids.split(",");
+
+        return historyService.findHistoryByParams(Map.of());
+    }
+
     /**
      * 根据日期查询出 电压为0的设备列表
      * @param start

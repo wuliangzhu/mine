@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mye.mine.mapper.SaveMapper">
+<mapper namespace="com.mye.mine.mapper.HistoryMapper">
 
     <select id="findTidByParams" parameterType="java.util.Map" resultType="java.util.Map" >
         select distinct tid from mye_algorithm.`alg_history_${day}` where voltage = 0;
+    </select>
+
+    <select id="findHistoryByTid" parameterType="java.util.Map" resultType="com.mye.mine.entity.History" >
+        select tid, collectTime,deviceid from mye_algorithm.`alg_history_${day}` where tid = #{t_id} order by collectTime desc;
     </select>
 
     <!--根据指定的酒店名字和房间名字查询出所有的设备的登录时间-->
@@ -103,4 +107,28 @@
             where max_temp_real > #{temperature};
         ]]>
     </select>
+
+    <select id="findRuntimeByDay" parameterType="java.util.Map" resultType="java.util.Map">
+        <![CDATA[
+          select dpower.device_id, dpower.t_id, sum(runtime_12), room.name, hotel.hotel_name
+          from mye_algorithm.alg_12_14_day_power_2019 dpower, nx_web.ac_device ad, nx_web.ent_room room, nx_web.ent_hotel hotel
+          where dpower.device_id = ad.id and ad.room_id = room.id and room.hotel_gid = hotel.gid and
+            record_date between #{begin} and #{end} and ad.t_id in (${tids}) group by device_id
+        ]]>
+    </select>
+
+    <!--根据设备和日期查出故障数据-->
+    <select id="findOneDayDiagnoseByTid" parameterType="java.util.Map" resultType="java.util.Map">
+      <![CDATA[
+          select
+             freq_conversion, cooling_input_power,  heading_input_power,  ehtrp,  0,  0,  max_input_power, 0,
+            tid,currentPower,collectTime,switch_,runModel,tempratureSet,temperature_wireless,humidityReal,temperatureOut, 0,
+            fan_power
+             from mye_algorithm.`alg_history_${day}` a left join nx_web.ac_device b on a.TId=b.t_id
+             left join nx_web.ac_parameter_template c on b.ac_parameter_template_id=c.id
+             where tid=#{tid}
+
+        ]]>
+    </select>
+
 </mapper>
