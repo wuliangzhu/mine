@@ -45,38 +45,39 @@ public class ExcelUtil {
                 }
                 List<Object> linked = new LinkedList<Object>();
                 for (int j = row.getFirstCellNum(); j <= row.getLastCellNum(); j++) {
-                    Object value = null;
+                    Object value = "-";
                     cell = row.getCell(j);
                     if (cell == null) {
-                        continue;
+                        value = "-";
+                    }else {
+                        switch (cell.getCellType()) {
+                            case XSSFCell.CELL_TYPE_STRING:
+                                //String类型返回String数据
+                                value = cell.getStringCellValue();
+                                break;
+                            case XSSFCell.CELL_TYPE_NUMERIC:
+                                //日期数据返回LONG类型的时间戳
+                                if ("yyyy\"年\"m\"月\"d\"日\";@".equals(cell.getCellStyle().getDataFormatString())) {
+                                    //System.out.println(cell.getNumericCellValue()+":日期格式："+cell.getCellStyle().getDataFormatString());
+                                    value = DateUtil.getMillis(HSSFDateUtil.getJavaDate(cell.getNumericCellValue())) / 1000;
+                                } else {
+                                    //数值类型返回double类型的数字
+                                    //System.out.println(cell.getNumericCellValue()+":格式："+cell.getCellStyle().getDataFormatString());
+                                    value = cell.getNumericCellValue();
+                                }
+                                break;
+                            case XSSFCell.CELL_TYPE_BOOLEAN:
+                                //布尔类型
+                                value = cell.getBooleanCellValue();
+                                break;
+                            case XSSFCell.CELL_TYPE_BLANK:
+                                //空单元格
+                                break;
+                            default:
+                                value = cell.toString();
+                        }
                     }
-                    switch (cell.getCellType()) {
-                        case XSSFCell.CELL_TYPE_STRING:
-                            //String类型返回String数据
-                            value = cell.getStringCellValue();
-                            break;
-                        case XSSFCell.CELL_TYPE_NUMERIC:
-                            //日期数据返回LONG类型的时间戳
-                            if ("yyyy\"年\"m\"月\"d\"日\";@".equals(cell.getCellStyle().getDataFormatString())) {
-                                //System.out.println(cell.getNumericCellValue()+":日期格式："+cell.getCellStyle().getDataFormatString());
-                                value = DateUtil.getMillis(HSSFDateUtil.getJavaDate(cell.getNumericCellValue())) / 1000;
-                            } else {
-                                //数值类型返回double类型的数字
-                                //System.out.println(cell.getNumericCellValue()+":格式："+cell.getCellStyle().getDataFormatString());
-                                value = cell.getNumericCellValue();
-                            }
-                            break;
-                        case XSSFCell.CELL_TYPE_BOOLEAN:
-                            //布尔类型
-                            value = cell.getBooleanCellValue();
-                            break;
-                        case XSSFCell.CELL_TYPE_BLANK:
-                            //空单元格
-                            break;
-                        default:
-                            value = cell.toString();
-                    }
-                    if (value != null && !value.equals("")) {
+                    if (value != null) {
                         //单元格不为空，则加入列表
                         linked.add(value);
                     }

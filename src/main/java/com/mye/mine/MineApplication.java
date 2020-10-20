@@ -1,6 +1,7 @@
 package com.mye.mine;
 
 import com.mye.mine.service.HistoryService;
+import com.mye.mine.service.MergeExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.CommandLineRunner;
@@ -18,6 +19,9 @@ import java.util.Arrays;
 public class MineApplication implements CommandLineRunner {
     @Autowired
     private HistoryService historyService;
+    @Autowired
+    private MergeExcelService mergeExcelService;
+
 //    @Bean
 //    public static PropertySourcesPlaceholderConfigurer properties() {
 //        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
@@ -36,7 +40,16 @@ public class MineApplication implements CommandLineRunner {
     public void run(String[] args) throws Exception{
 //        this.handleRepaire();
 //        this.handleNormal();
-        handleLastOfflineTime();
+//        handleLastOfflineTime();
+        handleExcel();
+    }
+
+    public void handleExcel() {
+        mergeExcelService.saveFile2Db("/Users/wuliangzhu/Downloads/deviceData/动环温度值");
+        mergeExcelService.saveFile2Db("/Users/wuliangzhu/Downloads/deviceData/交流电压");
+        mergeExcelService.saveFile2Db("/Users/wuliangzhu/Downloads/deviceData/交流电流");
+        mergeExcelService.saveFile2Db("/Users/wuliangzhu/Downloads/deviceData/直流电流");
+        mergeExcelService.saveFile2Db("/Users/wuliangzhu/Downloads/deviceData/直流电压");
     }
 
     public void handleLastOfflineTime() {

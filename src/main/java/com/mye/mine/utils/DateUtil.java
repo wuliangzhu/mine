@@ -1,5 +1,6 @@
 package com.mye.mine.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -40,6 +41,16 @@ public class DateUtil {
         return parse(date, DATE_FORMAT);
     }
 
+    public static Date parseFromString(String daytime) {
+        try {
+            SimpleDateFormat full_sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return full_sdf.parse(daytime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     /**
      * 添加对应的天数
      * @param localDate

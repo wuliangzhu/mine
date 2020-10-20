@@ -2,12 +2,12 @@ myapp:
   name: "shiro"
 database:
 #  host: localhost
-#  port: 3306
-  host: 125.216.38.66
+  port: 3306
+  host: 10.10.42.18
 #
-  databasename: test
-  username: root
-  password: root
+  databasename: nx_temp
+  username: dbnengxi
+  password: nxdb@017
 
 mysqlSize:
   max: 8

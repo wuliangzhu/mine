@@ -63,7 +63,7 @@ spring:
 #          dialect:  org.hibernate.dialect.MySQL5Dialect
   #  启用哪个配置文件
   profiles:
-    active: pub
+    active: dev
     include: watch
 server:
   port: 1003

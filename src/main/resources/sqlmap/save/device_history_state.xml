@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mye.mine.mapper.DeviceHistoryStateMapper">
+
+    <insert id="insert" parameterType="com.mye.mine.entity.DeviceHistoryState">
+        insert into device_history_state(province, city, area, address, address_id, device_name, device_factory, device_model, device_id,
+        point_type, point_value, update_time, unit, status) value (#{province},
+            #{city},
+            #{area},
+            #{address},
+            #{addressId},
+            #{deviceName},
+            #{deviceFactory},
+            #{deviceModel},
+            #{deviceId},
+            #{pointType},
+            #{pointValue},
+            #{updateTime},
+            #{unit},
+            #{status})
+    </insert>
+</mapper>
